@@ -63,19 +63,20 @@ handleSelectChange = e => {
             <Meslogements loge={this.state.loge.slice(this.state.loge.length - 20,this.state.loge.length ).slice(indexOfFirstLog, indexOfLastLog)}/>
           </div>
 
-          <div className="pagination-div center">
+          <div className="pagination-div">
             <Pagination 
             defaultCurent={this.state.curentPage}
             defaultPageSize={this.state.logPerPage}
             pageSize={this.state.logPerPage}
             onChange={this.handleChange}
             total={/*loadingOk && */loge.length > 0 && loge.length - (loge.length - 20 )}/>
-            
-            <select value={this.state.logPerPage} onChange={this.handleSelectChange}>
+            <div className="pagination">
+            <select value={this.state.logPerPage} onChange={this.handleSelectChange} >
                 <option>4</option>
                 <option>8</option>
                 <option>10</option>
               </select>
+           </div>
           </div>       
       </div>
     )

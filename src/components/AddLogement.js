@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import './Addloge.css';
 import axios from 'axios'
+import {FaWindowClose} from 'react-icons/fa'
+
 
 
 class AddLogement extends Component {
@@ -98,35 +100,34 @@ class AddLogement extends Component {
             <form onSubmit = {this.handleSubmit}>
                 <h2>Remplissez les informations de votre logement:</h2>
                  
-                <label className="monlabel"><strong>Type:</strong><select name="roomName"  onChange={this.handleChange} value ={this.state.cloge["roomName"]}>
+                <label><strong>Type:</strong><select name="roomName"  onChange={this.handleChange} value ={this.state.cloge["roomName"]}>
                 <option value ={this.state.cloge["type"] }> Appartement</option>
                 <option value ={this.state.cloge["type"]}>VIlla</option>
                 <option value ={this.state.cloge["type"]}>Studio</option>
                 <option value ={this.state.cloge["type"]}>Chambre</option>
-              </select> </label><br/><br/>
-                <label className="monlabel"><strong>Nombre de chambre :</strong><input name="bedroomNumber" type="number" min="1" max="10"  onChange={this.handleChange} value ={this.state.cloge["bedroomNumber"]}/> </label><br/><br/>
-                <label  className="monlabel"><strong>Nombre de douche :</strong><input name="showerNumber" type="number" min="1" max="5"  onChange={this.handleChange} value ={this.state.cloge["showerNumber"]}/> </label><br/><br/>
-                <label  className="monlabel"><strong>Nombre de cuisine :</strong><input name="cookedNumber" type="number" min="1" max="5"  onChange={this.handleChange} value ={this.state.cloge["cookedNumber"]}/> </label><br/><br/>
-                <label className="monlabel"><strong>Loyer :</strong><input type="number" name="rentCost" min="1" max="5000000"  onChange={this.handleChange} value ={this.state.cloge["rentCost"]}/> </label><br/><br/>
-                <label className="monlabel"><strong>nombre de salon :</strong><input name="livingRoomNumber" type="number"min="1" max="3"  onChange={this.handleChange} value ={this.state.cloge["livingRoomNumber"]}/> </label><br/><br/>
-                <label className="monlabel"><strong>Etat </strong><select name="roomStateName"  onChange={this.handleChange} value ={this.state.cloge["roomStateName"]}>
-                <option className="monlabel">Occupé</option>
-                <option className="monlabel">A veriffier</option>
-                <option className="monlabel">Disponible</option>
-              </select> </label><br/><br/>
+              </select> </label>
+                <label><strong>Nombre de chambre :</strong><input name="bedroomNumber" type="number" min="1" max="10"  onChange={this.handleChange} value ={this.state.cloge["bedroomNumber"]}/> </label>
+                <label ><strong>Nombre de douche :</strong><input name="showerNumber" type="number" min="1" max="5"  onChange={this.handleChange} value ={this.state.cloge["showerNumber"]}/> </label>
+                <label ><strong>Nombre de cuisine :</strong><input name="cookedNumber" type="number" min="1" max="5"  onChange={this.handleChange} value ={this.state.cloge["cookedNumber"]}/> </label>
+                <label><strong>Loyer :</strong><input type="number" name="rentCost" min="1" max="5000000"  onChange={this.handleChange} value ={this.state.cloge["rentCost"]}/> </label>
+                <label><strong>nombre de salon :</strong><input name="livingRoomNumber" type="number"min="1" max="3"  onChange={this.handleChange} value ={this.state.cloge["livingRoomNumber"]}/> </label>
+                <label><strong>Etat </strong><select name="roomStateName"  onChange={this.handleChange} value ={this.state.cloge["roomStateName"]}>
+                <option>Occupé</option>
+                <option>A veriffier</option>
+                <option>Disponible</option>
+              </select> </label>
               
-                 <label> <h2 className="heading">Ajouter votre image</h2></label>
+                 <label> <h2 >Ajouter votre image</h2></label>
                      <input name="imageUpload " type="file"  onChange={this.handleImage}  accept ="image/*"   disabled={this.state.TabFile.length === 4}/>
                      {this.state.TabFile.map( (iut, index) => {
                          return(
                         <div className="img-holder" key = {index}> 
                             <img src={URL.createObjectURL(iut)} id="img" className="img" width="200px"  alt=""/> 
-                            <img src={URL.createObjectURL(iut)} id="img" className="img" width="200px"  alt=""/> 
-                            <button className="btn btn-info btn-md" type="delete" onClick={this.handledelete}>Delete</button>
+                            <button className="delete" type="delete" onClick={this.handledelete}><FaWindowClose/></button>
                         </div>
-                    ) })}<br/><br/>
+                    ) })}
                         
-                <button className="btn btn-info btn-md" type="submit" value="Envoyer">Envoyer</button><br/> <br/>
+                <button className="btn btn-success" type="submit" value="Envoyer">Envoyer</button><br/> <br/>
 
               
             </form>

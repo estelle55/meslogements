@@ -7,16 +7,9 @@ form {
     margin-top: 20px;
     border:2px solid  #15b000;
 }
-bouton {
-    background-color: #3db8d6;
-    padding: 14px 30px;
-    margin:  auto ;
-    cursor: pointer;
-    width: 50%;
-   
-}
+
 input, select {
-    width: 100%;
+    
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -38,13 +31,8 @@ h2{
     display: inline-block;
 }
 
-/* body{
-    background: #45a6c4;
+.delete{
+    position: absolute;
+    background-color:green;
+    border: none;
 }
-
-
-
-
-.navbar-style{
-	box-shadow: 0 5px 10px #efefef;
-} */

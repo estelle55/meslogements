@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios'
 import {Pagination} from "antd";
 import {MdDelete} from 'react-icons/md'
-import {FaEdit} from 'react-icons/fa'
+import {FaEdit, FaWindowClose} from 'react-icons/fa'
 
 
 class Newlogement extends Component {
@@ -15,10 +15,9 @@ class Newlogement extends Component {
                 house : this.props.house,
                 cloge :[],
                 logPerPage : 3,
-                currentPage: 1,
-                
+                currentPage: 1,               
             }
-            
+            this.handledelete.bind(this)
     
         }
         
@@ -45,14 +44,15 @@ class Newlogement extends Component {
                 });
               };
             handledelete  = (e,index, id)=>{
-                e.preventDefault()
-                let config= {headers:{"Access-Control-Allow-Origin":"*"}} //gerer l erreur du serveur
+
                 let clogeTemp = this.state.cloge
                  clogeTemp.splice(index, 1)
                  console.log(clogeTemp)
                  this.setState({ cloge : clogeTemp });
-                axios.delete("https://mamaison.arenaplaza.site/api/Room/" + id,config).then(res => {
+                axios.delete("https://mamaison.arenaplaza.site/api/Room/" + id).then(res => {
                 console.log(res.data)
+
+                e.preventDefault()
               }) 
        }
 
@@ -67,13 +67,19 @@ class Newlogement extends Component {
             const indexOfLastLog = currentPage * logPerPage;
             const indexOfFirstLog = indexOfLastLog - logPerPage;
         return (         
-            <div>
+          <div>
+
+             
+                <div className="meslogements">
+
+
                 {
                     this.state.cloge.slice(this.state.cloge.length - 20,this.state.cloge.length ).slice(indexOfFirstLog, indexOfLastLog).map((item, index) =>{
 
-                        return<div className="grid__item" key={index}>
+                        return(
+                        <div className="grid__item" key={index}>
                                 <div className="card"> 
-                                <Link to= {`/Descriptiondelogement/${this.props.id}`}><img className="card__img" src={"https://res.cloudinary.com/dtklqpfen/image/fetch/h_900/"+ item.image} alt=""/></Link> 
+                                <Link to= {`/Descriptiondelogement/${item.id}`}><img className="card__img" src={"https://res.cloudinary.com/dtklqpfen/image/fetch/h_900/"+ item.roomStateName} alt=""/></Link> 
                                     <div className="card__content">
                                         <h1 className="card__text">Type: {item.roomName}</h1>
                                         <p className="card__text"><strong>Chambre: </strong>{item.livingRoomNumber}</p>
@@ -81,36 +87,40 @@ class Newlogement extends Component {
                                         <p className="card__text"><strong>douche: </strong>{item.bedroomNumber}</p>
                                         <p className="card__text"><strong>loyer: </strong>{item.rentCostSS}</p>
                                         <p className="card__text"><strong>Etat: </strong>{/*this.props.Etat*/} </p>
-                                        <p className="bout">
+                                        <div className="bout">
                                         <Link to ="" >
-                                        <button className="btn btn-success" onClick = { (e) => this.handledelete (e,index,item.id)}><MdDelete/>supprimer</button>
+                                        <button className="btn btn-success mr-2" onClick = { (e) => this.handledelete (e,index,item.id)}><MdDelete/>supprimer</button>
                                         </Link>
                                         <Link to ="/Ajouterunlogement" > 
-                                        <button className="btn btn-success" type="text"> <FaEdit/>modifier</button> 
+                                        <button className="btn btn-success mr-5" type="text"> <FaEdit/>modifier</button> 
                                         </Link>
                                         <img className="favorite" src={ this.state.isFavoriteLog?"/images/ic_favorite.png":"/images/ic_favo.png"} width="50px" onClick={this.handleFavoritelog}  alt=""></img>
-                                        </p>
+                                        </div>
                                 </div> 
                             </div>
                         </div>
+                        )
                     })
-                }
-
-         <div className="pagination-div">
-           <Pagination 
-           defaultCurent={this.state.curentPage}
-           defaultPageSize={this.state.logPerPage}
-           pageSize={this.state.logPerPage}
-           onChange={this.handleChange}
-           total={/*loadingOk && */this.state.cloge.length > 0 && this.state.cloge.length - (this.state.cloge.length - 20 )}/>
-           
-           <select value={this.state.logPerPage} onChange={this.handleSelectChange}>
-               <option>4</option>
-               <option>8</option>
-               <option>10</option>
-             </select>
-         </div>       
+                }           
             </div>
+            <div className="pagination-div">
+                        <Pagination 
+                        defaultCurent={this.state.curentPage}
+                        defaultPageSize={this.state.logPerPage}
+                        pageSize={this.state.logPerPage}
+                        onChange={this.handleChange}
+                        total={/*loadingOk && */this.state.cloge.length > 0 && this.state.cloge.length - (this.state.cloge.length - 20 )}/>
+                        
+                        <div className="pagination">
+                        <select value={this.state.logPerPage} onChange={this.handleSelectChange} >
+                            <option>4</option>
+                            <option>8</option>
+                            <option>10</option>
+                          </select>
+                      </div>
+                </div>  
+          </div>
+            
      )
         
     }

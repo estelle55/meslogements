@@ -14,6 +14,7 @@ class AjoutDescription extends Component {
     }
     componentDidMount() {
         let id = this.props.match.params.id
+        console.log(this.props)
         axios.get("https://mamaison.arenaplaza.site/api/Room/GetRoomDetail/"+id).then(res => {
             const logementInfos = res.data;
             console.log(logementInfos)
@@ -25,8 +26,10 @@ class AjoutDescription extends Component {
  render() { 
      return (
          
-        <div>
-           <img src={this.state.cloge.image} alt=""></img>
+        <div className="descrip">
+            <div className="grid__item">
+                <div className="card"> 
+           <img src={this.state.cloge.roomStateName} alt="" width="300"  className="card__img"></img>
            <div className="card__content">
                 <p className="card__text"><strong>Type: </strong>{this.state.cloge.roomName}</p>
                 <p className="card__text"><strong>Chambre: </strong>{this.state.cloge.bedroomNumber}</p>
@@ -37,6 +40,8 @@ class AjoutDescription extends Component {
                 <p className="card__text"><strong>salon: </strong>{this.state.cloge.livingRoomNumber}</p>
                
                 <img src="" onClick="handleClick" alt=""></img>
+            </div>
+            </div>
             </div>
             
         </div>

@@ -44,10 +44,21 @@ padding: 0px 30px 0px 0px;
 .white{
     color: white;
 }
-.mot{
+
+.test{
     position: relative;
-    left: 50%;
-    bottom:100%;
+}
+.mot{
+    position: absolute;
+    text-align: center;
+    z-index: 2;
+    top:100px;
+    display: block;
+    width: 100%;
+}
+.mot h1{
+    color: white;
+    font-size: 100px !important;
 }
  .Image{
     position: relative;;
