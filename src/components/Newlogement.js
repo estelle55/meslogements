@@ -1,0 +1,123 @@
+import {Component} from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios'
+import {Pagination} from "antd";
+import {MdDelete} from 'react-icons/md'
+import {FaEdit} from 'react-icons/fa'
+
+
+class Newlogement extends Component {
+
+        constructor(props){
+            super(props)
+            this.state = {
+                isFavoriteLog:false,
+                house : this.props.house,
+                cloge :[],
+                logPerPage : 3,
+                currentPage: 1,
+                
+            }
+            
+    
+        }
+        
+            componentDidMount() {
+                
+            axios.get("https://mamaison.arenaplaza.site/api/Room/GetRoomList").then(res => {
+                const logementInfos = res.data;
+                console.log(logementInfos)
+              this.setState({ cloge : logementInfos });
+              console.log(this.state.cloge)
+              }) 
+              
+            }
+            handleSelectChange = e => {
+                this.setState({
+                  logPerPage: e.target.value,
+                  currentPage: 1
+                });
+              };   
+
+            handleChange = value => {
+                this.setState({
+                  currentPage: value
+                });
+              };
+            handledelete  = (e,index, id)=>{
+                e.preventDefault()
+                let config= {headers:{"Access-Control-Allow-Origin":"*"}} //gerer l erreur du serveur
+                let clogeTemp = this.state.cloge
+                 clogeTemp.splice(index, 1)
+                 console.log(clogeTemp)
+                 this.setState({ cloge : clogeTemp });
+                axios.delete("https://mamaison.arenaplaza.site/api/Room/" + id,config).then(res => {
+                console.log(res.data)
+              }) 
+       }
+
+    render() { 
+        
+            
+            const {
+                currentPage,
+                logPerPage,
+            }
+            = this.state;
+            const indexOfLastLog = currentPage * logPerPage;
+            const indexOfFirstLog = indexOfLastLog - logPerPage;
+        return (         
+            <div>
+                {
+                    this.state.cloge.slice(this.state.cloge.length - 20,this.state.cloge.length ).slice(indexOfFirstLog, indexOfLastLog).map((item, index) =>{
+
+                        return<div className="grid__item" key={index}>
+                                <div className="card"> 
+                                <Link to= {`/Descriptiondelogement/${this.props.id}`}><img className="card__img" src={"https://res.cloudinary.com/dtklqpfen/image/fetch/h_900/"+ item.image} alt=""/></Link> 
+                                    <div className="card__content">
+                                        <h1 className="card__text">Type: {item.roomName}</h1>
+                                        <p className="card__text"><strong>Chambre: </strong>{item.livingRoomNumber}</p>
+                                        <p className="card__text"><strong>Cuisine: </strong>{item.cookedNumber}</p>
+                                        <p className="card__text"><strong>douche: </strong>{item.bedroomNumber}</p>
+                                        <p className="card__text"><strong>loyer: </strong>{item.rentCostSS}</p>
+                                        <p className="card__text"><strong>Etat: </strong>{/*this.props.Etat*/} </p>
+                                        <p className="bout">
+                                        <Link to ="" >
+                                        <button className="btn btn-success" onClick = { (e) => this.handledelete (e,index,item.id)}><MdDelete/>supprimer</button>
+                                        </Link>
+                                        <Link to ="/Ajouterunlogement" > 
+                                        <button className="btn btn-success" type="text"> <FaEdit/>modifier</button> 
+                                        </Link>
+                                        <img className="favorite" src={ this.state.isFavoriteLog?"/images/ic_favorite.png":"/images/ic_favo.png"} width="50px" onClick={this.handleFavoritelog}  alt=""></img>
+                                        </p>
+                                </div> 
+                            </div>
+                        </div>
+                    })
+                }
+
+         <div className="pagination-div">
+           <Pagination 
+           defaultCurent={this.state.curentPage}
+           defaultPageSize={this.state.logPerPage}
+           pageSize={this.state.logPerPage}
+           onChange={this.handleChange}
+           total={/*loadingOk && */this.state.cloge.length > 0 && this.state.cloge.length - (this.state.cloge.length - 20 )}/>
+           
+           <select value={this.state.logPerPage} onChange={this.handleSelectChange}>
+               <option>4</option>
+               <option>8</option>
+               <option>10</option>
+             </select>
+         </div>       
+            </div>
+     )
+        
+    }
+}
+
+
+  
+  export default Newlogement;
+  
+  
